@@ -4,14 +4,13 @@ import moment from 'moment'
 import cx from 'classnames'
 import { me } from '../constants'
 
-const Container = styled('div')`
-`
+const Container = styled('div')``
 
 const MessageGroupList = styled('ol')`
   max-height: 600px;
   overflow-y: auto;
 
-  @media(max-height: 800px) {
+  @media (max-height: 800px) {
     max-height: calc(100vh - 200px);
   }
 `
@@ -80,7 +79,8 @@ class MessageList extends React.Component {
 
   scrollToBottom() {
     if (this.listEl) {
-      this.listEl.scrollTop = this.listEl.scrollHeight - this.listEl.clientHeight
+      const top = this.listEl.scrollHeight - this.listEl.clientHeight
+      this.listEl.scrollTop = top
     }
   }
 
@@ -93,7 +93,7 @@ class MessageList extends React.Component {
       const prevMessage = idx === 0 ? null : processed[idx - 1]
       const newGroup = !prevMessage || prevMessage.from !== message.from
       if (newGroup) {
-        groupedMessages.push({ from: message.from,  messages: [message] })
+        groupedMessages.push({ from: message.from, messages: [message] })
       } else {
         groupedMessages[groupedMessages.length - 1].messages.push(message)
       }
@@ -107,11 +107,15 @@ class MessageList extends React.Component {
 
     return (
       <Container>
-        <MessageGroupList innerRef={el => { this.listEl = el }}>
+        <MessageGroupList
+          innerRef={el => {
+            this.listEl = el
+          }}
+        >
           {groupedMessages.map(({ from, messages }) => {
             const { id } = messages[0]
             const groupClass = cx({
-              me: from === me,
+              me: from === me
             })
 
             return (

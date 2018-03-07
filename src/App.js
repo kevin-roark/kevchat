@@ -22,7 +22,7 @@ const App = () => {
           <Route exact path="/" component={Home} />
 
           <Route exact path="/chat" component={Home} />
-          <Route path='/chat/:user' component={ChatFrom} />
+          <Route path="/chat/:user" component={ChatFrom} />
 
           <Route exact path="/dashboard" component={Dashboard} />
         </Container>

@@ -24,7 +24,7 @@ class ChatFrom extends React.Component {
   render() {
     const user = this.getUser()
     if (!user) {
-      return <Redirect to='/' />
+      return <Redirect to="/" />
     }
 
     return <Chat user={user} from={user} />

@@ -34,7 +34,10 @@ class Dashboard extends React.Component {
   toggleChattingUser(user) {
     const { currentChattingUsers } = this.state
     this.setState({
-      currentChattingUsers: { ...currentChattingUsers, [user]: !currentChattingUsers[user] }
+      currentChattingUsers: {
+        ...currentChattingUsers,
+        [user]: !currentChattingUsers[user]
+      }
     })
   }
 
@@ -71,7 +74,9 @@ const ConnectedDashboard = compose(
   connect(({ firebase }) => {
     const loading = !isLoaded(firebase.data.usernames)
     const usernamesData = !loading ? firebase.data.usernames : {}
-    const usernames = Object.keys(usernamesData).filter(user => !!usernamesData[user])
+    const usernames = Object.keys(usernamesData).filter(
+      user => !!usernamesData[user]
+    )
 
     return { usernames }
   })

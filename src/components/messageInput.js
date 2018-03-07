@@ -41,7 +41,7 @@ const SubmitButton = styled('input')`
     cursor: pointer;
   }
 
-  @media(${notMobileBreakpount}) {
+  @media (${notMobileBreakpount}) {
     &:hover {
       color: #000;
     }
@@ -105,11 +105,18 @@ class MessageInput extends React.Component {
   }
 
   render() {
-    const { maxLength, containerClass, inputClass, submitClass, submitLabel, showLengthCounter, autoFocus } = this.props
+    const {
+      maxLength,
+      containerClass,
+      inputClass,
+      submitClass,
+      submitLabel,
+      showLengthCounter,
+      autoFocus
+    } = this.props
     const { message } = this.state
 
     // <TextInput type="text" value={message} onChange={this.onInputChange} />
-
 
     return (
       <MessageInputForm className={containerClass} onSubmit={this.submit}>
@@ -119,18 +126,20 @@ class MessageInput extends React.Component {
           value={message}
           onChange={this.onInputChange}
           onKeyPress={this.onInputKeyPress}
-          innerRef={el => { this.input = el }}
+          innerRef={el => {
+            this.input = el
+          }}
         />
         <SubmitButton
           className={cx([submitClass, { enabled: message.length > 0 }])}
           type="submit"
           value={submitLabel}
         />
-        {showLengthCounter &&
+        {showLengthCounter && (
           <LengthCounter className={cx({ active: message.length > 0 })}>
             {message.length}/{maxLength}
           </LengthCounter>
-        }
+        )}
       </MessageInputForm>
     )
   }

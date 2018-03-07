@@ -10,7 +10,7 @@ const Heading = styled('h1')`
   line-height: 1.5;
   font-size: 48px;
 
-  @media(${mobileBreakpoint}) {
+  @media (${mobileBreakpoint}) {
     font-size: 24px;
   }
 `
@@ -33,7 +33,7 @@ const inputClass = css`
   color: #000;
   text-align: center;
 
-  @media(${mobileBreakpoint}) {
+  @media (${mobileBreakpoint}) {
     width: auto;
   }
 `
@@ -47,7 +47,7 @@ const submitClass = css`
   font-size: 28px;
 
   &.enabled {
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   }
 `
 

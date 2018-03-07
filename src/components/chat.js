@@ -12,7 +12,7 @@ const Container = styled('div')`
   padding: 8px;
   width: 600px;
 
-  @media(${mobileBreakpoint}) {
+  @media (${mobileBreakpoint}) {
     width: auto;
   }
 `
@@ -47,16 +47,19 @@ const Chat = props => {
 
   return (
     <Container>
-      <Greeting>
-        Hi, {from}!
-      </Greeting>
+      <Greeting>Hi, {from}!</Greeting>
       <Status>
-        { loading && <div>Loading your messages with {to}...</div> }
-        { empty && <div>Looks like you have never chatted with {to} before... Add a message below!</div> }
-        { !loading && !empty && <span>Enjoy your chat with {to}.</span> }
+        {loading && <div>Loading your messages with {to}...</div>}
+        {empty && (
+          <div>
+            Looks like you have never chatted with {to} before... Add a message
+            below!
+          </div>
+        )}
+        {!loading && !empty && <span>Enjoy your chat with {to}.</span>}
       </Status>
       <MessageList messages={messages} />
-      {!loading && <MessageInput onInput={onMessageInput} /> }
+      {!loading && <MessageInput onInput={onMessageInput} />}
     </Container>
   )
 }
@@ -71,16 +74,16 @@ const ConnectedChat = compose(
     return [
       {
         path: `messages/${user}`,
-        queryParams: [
-          'orderByChild=date'
-        ]
+        queryParams: ['orderByChild=date']
       }
     ]
   }),
   connect(({ firebase }, { user }) => {
     const loading = !isLoaded(firebase.data.messages)
     const messageData = !loading ? firebase.data.messages[user] : {}
-    const messages = messageData ? Object.keys(messageData).map(id => ({ ...messageData[id], id })) : []
+    const messages = messageData
+      ? Object.keys(messageData).map(id => ({ ...messageData[id], id }))
+      : []
     const empty = !loading && messages.length === 0
 
     return { loading, empty, messages }
