@@ -3,34 +3,48 @@ import PropTypes from 'prop-types'
 import { css } from 'emotion'
 import styled from 'react-emotion'
 import cx from 'classnames'
+import TextArea from 'react-autosize-textarea'
+import { notMobileBreakpount } from '../constants'
 
 const MessageInputForm = styled('form')`
   position: relative;
+  display: flex;
+  align-items: stretch;
 `
 
 const inputClass = css`
   box-sizing: border-box;
   border: 1px solid #000;
-  height: 44px;
   outline: none;
+  background-color: #fff;
 `
 
-const TextInput = styled('input')`
+const textClass = css`
   ${inputClass};
   width: calc(100% - 80px);
   padding: 10px 6px;
   font-size: 16px;
+  resize: none;
+  overflow: scroll;
 `
 
 const SubmitButton = styled('input')`
   ${inputClass};
-  transform: translateY(-2px);
   width: 80px;
   border-left: none;
-  cursor: pointer;
+  color: #444;
+  opacity: 0.2;
+  transition: opacity 0.2s;
 
-  &:hover {
-    text-decoration: underline;
+  &.enabled {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  @media(${notMobileBreakpount}) {
+    &:hover {
+      color: #000;
+    }
   }
 `
 
@@ -56,13 +70,27 @@ class MessageInput extends React.Component {
     this.state = {
       message: ''
     }
+    this.onInputKeyPress = this.onInputKeyPress.bind(this)
     this.onInputChange = this.onInputChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+    this.submit = this.submit.bind(this)
+  }
+
+  componentDidMount() {
+    if (this.input && this.props.autoFocus) {
+      this.input.focus()
+    }
+  }
+
+  onInputKeyPress(ev) {
+    if (ev.which === 13 && !ev.shiftKey) {
+      ev.preventDefault()
+      this.submit(ev)
+    }
   }
 
   onInputChange(ev) {
-    const { maxLength } = this.props
-    const message = ev.target.value
+    const { maxLength, valueCleaner } = this.props
+    const message = valueCleaner(ev.target.value)
     if (message.length > maxLength) {
       return
     }
@@ -70,23 +98,39 @@ class MessageInput extends React.Component {
     this.setState({ message })
   }
 
-  onSubmit(ev) {
+  submit(ev) {
     ev.preventDefault()
     this.props.onInput(this.state.message)
     this.setState({ message: '' })
   }
 
   render() {
-    const { maxLength } = this.props
+    const { maxLength, containerClass, inputClass, submitClass, submitLabel, showLengthCounter, autoFocus } = this.props
     const { message } = this.state
 
+    // <TextInput type="text" value={message} onChange={this.onInputChange} />
+
+
     return (
-      <MessageInputForm onSubmit={this.onSubmit}>
-        <TextInput type="text" value={message} onChange={this.onInputChange} />
-        <SubmitButton type="submit" value="Send" />
-        <LengthCounter className={cx({ active: message.length > 0 })}>
-          {message.length}/{maxLength}
-        </LengthCounter>
+      <MessageInputForm className={containerClass} onSubmit={this.submit}>
+        <TextArea
+          className={cx([textClass, inputClass])}
+          autoFocus={autoFocus}
+          value={message}
+          onChange={this.onInputChange}
+          onKeyPress={this.onInputKeyPress}
+          innerRef={el => { this.input = el }}
+        />
+        <SubmitButton
+          className={cx([submitClass, { enabled: message.length > 0 }])}
+          type="submit"
+          value={submitLabel}
+        />
+        {showLengthCounter &&
+          <LengthCounter className={cx({ active: message.length > 0 })}>
+            {message.length}/{maxLength}
+          </LengthCounter>
+        }
       </MessageInputForm>
     )
   }
@@ -94,11 +138,22 @@ class MessageInput extends React.Component {
 
 MessageInput.propTypes = {
   onInput: PropTypes.func.isRequired,
+  containerClass: PropTypes.string,
+  inputClass: PropTypes.string,
+  submitClass: PropTypes.string,
+  submitLabel: PropTypes.string,
+  showLengthCounter: PropTypes.bool,
+  autoFocus: PropTypes.bool,
+  valueCleaner: PropTypes.func,
   maxLength: PropTypes.number
 }
 
 MessageInput.defaultProps = {
-  maxLength: 140
+  maxLength: 250,
+  showLengthCounter: true,
+  submitLabel: 'Send',
+  valueCleaner: val => val,
+  autoFocus: true
 }
 
 export default MessageInput

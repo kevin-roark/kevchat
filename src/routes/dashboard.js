@@ -2,8 +2,26 @@ import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { firebaseConnect, isLoaded } from 'react-redux-firebase'
+import styled from 'react-emotion'
+import cx from 'classnames'
 import { me } from '../constants'
 import Chat from '../components/chat'
+
+const Heading = styled('h1')`
+  font-size: 24px;
+`
+
+const ChattingUsersList = styled('ul')`
+  margin: 10px 0 40px 0;
+
+  & li {
+    cursor: pointer;
+
+    &.active {
+      text-decoration: underline;
+    }
+  }
+`
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -21,20 +39,23 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { onlineUsers } = this.props
+    const { usernames } = this.props
     const { currentChattingUsers } = this.state
     return (
       <div>
-        <div>Hi {me}!!! Toggle who you want to chat with</div>
-        <ul>
-          {onlineUsers.map(user => (
-            <li key={user} onClick={() => this.toggleChattingUser(user)}>
-              {user} {currentChattingUsers[user] ? '(active)' : ''}
+        <Heading>Toggle who you want to chat with</Heading>
+        <ChattingUsersList>
+          {usernames.map(user => (
+            <li
+              key={user}
+              className={cx({ active: currentChattingUsers[user] })}
+              onClick={() => this.toggleChattingUser(user)}
+            >
+              {user}
             </li>
           ))}
-        </ul>
+        </ChattingUsersList>
 
-        <h2>Chatters!</h2>
         <div>
           {Object.keys(currentChattingUsers).map(user => (
             <Chat key={user} user={user} from={me} />
@@ -46,13 +67,13 @@ class Dashboard extends React.Component {
 }
 
 const ConnectedDashboard = compose(
-  firebaseConnect(['onlineUsers']),
+  firebaseConnect(['usernames']),
   connect(({ firebase }) => {
-    const loading = !isLoaded(firebase.data.onlineUsers)
-    const onlineUsersData = !loading ? firebase.data.onlineUsers : {}
-    const onlineUsers = Object.keys(onlineUsersData).filter(user => !!onlineUsersData[user])
+    const loading = !isLoaded(firebase.data.usernames)
+    const usernamesData = !loading ? firebase.data.usernames : {}
+    const usernames = Object.keys(usernamesData).filter(user => !!usernamesData[user])
 
-    return { onlineUsers }
+    return { usernames }
   })
 )(Dashboard)
 

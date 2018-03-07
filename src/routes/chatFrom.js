@@ -18,7 +18,7 @@ class ChatFrom extends React.Component {
 
   setUserOnline(online) {
     const { firebase } = this.props
-    firebase.set(`onlineUsers/${this.getUser()}`, online)
+    firebase.set(`usernames/${this.getUser()}`, online)
   }
 
   render() {

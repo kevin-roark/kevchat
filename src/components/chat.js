@@ -80,7 +80,7 @@ const ConnectedChat = compose(
   connect(({ firebase }, { user }) => {
     const loading = !isLoaded(firebase.data.messages)
     const messageData = !loading ? firebase.data.messages[user] : {}
-    const messages = Object.keys(messageData).map(id => ({ ...messageData[id], id }))
+    const messages = messageData ? Object.keys(messageData).map(id => ({ ...messageData[id], id })) : []
     const empty = !loading && messages.length === 0
 
     return { loading, empty, messages }
