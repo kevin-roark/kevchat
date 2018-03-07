@@ -3,10 +3,30 @@ import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { firebaseConnect, isLoaded } from 'react-redux-firebase'
+import styled from 'react-emotion'
+import { me, mobileBreakpoint } from '../constants'
 import MessageList from './messageList'
 import MessageInput from './messageInput'
 
-export const me = 'kev'
+const Container = styled('div')`
+  padding: 8px;
+  width: 600px;
+
+  @media(${mobileBreakpoint}) {
+    width: auto;
+  }
+`
+
+const Greeting = styled('h1')`
+  text-align: center;
+  font-size: 44px;
+`
+
+const Status = styled('h2')`
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 20px;
+`
 
 const Chat = props => {
   const { firebase, user, from, messages, loading, empty } = props
@@ -26,14 +46,18 @@ const Chat = props => {
   }
 
   return (
-    <div>
-      <div>Hi, {from}!</div>
-      { loading && <div>Loading your messages with {to}...</div> }
-      { empty && <div>Looks like you have never chatted with {to} before... Add a message below!</div> }
-      { !loading && !empty && <div>Here is your chatlog with {to}:</div> }
+    <Container>
+      <Greeting>
+        Hi, {from}!
+      </Greeting>
+      <Status>
+        { loading && <div>Loading your messages with {to}...</div> }
+        { empty && <div>Looks like you have never chatted with {to} before... Add a message below!</div> }
+        { !loading && !empty && <span>Enjoy your chat with {to}.</span> }
+      </Status>
       <MessageList messages={messages} />
-      <MessageInput onInput={onMessageInput} />
-    </div>
+      {!loading && <MessageInput onInput={onMessageInput} /> }
+    </Container>
   )
 }
 

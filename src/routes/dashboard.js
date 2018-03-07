@@ -2,7 +2,8 @@ import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { firebaseConnect, isLoaded } from 'react-redux-firebase'
-import Chat, { me } from '../components/chat'
+import { me } from '../constants'
+import Chat from '../components/chat'
 
 class Dashboard extends React.Component {
   constructor(props) {
