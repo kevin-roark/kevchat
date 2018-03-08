@@ -6,7 +6,7 @@ import cx from 'classnames'
 import TextArea from 'react-autosize-textarea'
 import { notMobileBreakpount } from '../constants'
 
-const MessageInputForm = styled('form')`
+const ControlledInputForm = styled('form')`
   position: relative;
   display: flex;
   align-items: stretch;
@@ -64,7 +64,7 @@ const LengthCounter = styled('div')`
   }
 `
 
-class MessageInput extends React.Component {
+class ControlledInput extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -119,7 +119,7 @@ class MessageInput extends React.Component {
     // <TextInput type="text" value={message} onChange={this.onInputChange} />
 
     return (
-      <MessageInputForm className={containerClass} onSubmit={this.submit}>
+      <ControlledInputForm className={containerClass} onSubmit={this.submit}>
         <TextArea
           className={cx([textClass, inputClass])}
           autoFocus={autoFocus}
@@ -140,12 +140,12 @@ class MessageInput extends React.Component {
             {message.length}/{maxLength}
           </LengthCounter>
         )}
-      </MessageInputForm>
+      </ControlledInputForm>
     )
   }
 }
 
-MessageInput.propTypes = {
+ControlledInput.propTypes = {
   onInput: PropTypes.func.isRequired,
   containerClass: PropTypes.string,
   inputClass: PropTypes.string,
@@ -157,7 +157,7 @@ MessageInput.propTypes = {
   maxLength: PropTypes.number
 }
 
-MessageInput.defaultProps = {
+ControlledInput.defaultProps = {
   maxLength: 250,
   showLengthCounter: true,
   submitLabel: 'Send',
@@ -165,4 +165,4 @@ MessageInput.defaultProps = {
   autoFocus: true
 }
 
-export default MessageInput
+export default ControlledInput

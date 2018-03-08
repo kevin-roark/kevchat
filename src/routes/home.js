@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { css } from 'emotion'
 import styled from 'react-emotion'
 import { me, mobileBreakpoint } from '../constants'
-import MessageInput from '../components/messageInput'
+import ControlledInput from '../components/controlledInput'
 
 const Heading = styled('h1')`
   text-align: center;
@@ -58,7 +58,7 @@ const Home = ({ history }) => (
       <div>Type your name to chat with {me}</div>
     </Heading>
     <InputWrapper>
-      <MessageInput
+      <ControlledInput
         containerClass={containerClass}
         inputClass={inputClass}
         submitClass={submitClass}

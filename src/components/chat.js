@@ -6,7 +6,7 @@ import { firebaseConnect, isLoaded } from 'react-redux-firebase'
 import styled from 'react-emotion'
 import { me, mobileBreakpoint } from '../constants'
 import MessageList from './messageList'
-import MessageInput from './messageInput'
+import ControlledInput from './controlledInput'
 
 const Container = styled('div')`
   padding: 8px;
@@ -59,7 +59,7 @@ const Chat = props => {
         {!loading && !empty && <span>Enjoy your chat with {to}.</span>}
       </Status>
       <MessageList messages={messages} />
-      {!loading && <MessageInput onInput={onMessageInput} />}
+      {!loading && <ControlledInput onInput={onMessageInput} />}
     </Container>
   )
 }
