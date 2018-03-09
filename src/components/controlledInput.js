@@ -4,18 +4,23 @@ import { css } from 'emotion'
 import styled from 'react-emotion'
 import cx from 'classnames'
 import TextArea from 'react-autosize-textarea'
-import { notMobileBreakpount } from '../constants'
+import { mobileBreakpoint, notMobileBreakpount } from '../constants'
 
 const ControlledInputForm = styled('form')`
   position: relative;
   display: flex;
   align-items: stretch;
+
+  @media (${mobileBreakpoint}) {
+    align-items: flex-end;
+  }
 `
 
 const inputClass = css`
   box-sizing: border-box;
   border: 1px solid #000;
   outline: none;
+  border-radius: 0;
   background-color: #fff;
 `
 
@@ -45,6 +50,10 @@ const SubmitButton = styled('input')`
     &:hover {
       color: #000;
     }
+  }
+
+  @media (${mobileBreakpoint}) {
+    min-height: 40px;
   }
 `
 

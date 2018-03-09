@@ -64,7 +64,7 @@ const Home = ({ history }) => (
         submitClass={submitClass}
         maxLength={60}
         showLengthCounter={false}
-        valueCleaner={val => val.replace(/\s/g, '_')}
+        valueCleaner={val => val.replace(/\s/g, '_').toLowerCase()}
         submitLabel="→"
         onInput={user => history.push(getUserChatPath(user))}
       />
