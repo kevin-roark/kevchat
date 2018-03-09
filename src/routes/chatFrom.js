@@ -1,6 +1,7 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { withFirebase } from 'react-redux-firebase'
+import { routePaths } from '../constants'
 import Chat from '../components/chat'
 
 class ChatFrom extends React.Component {
@@ -24,7 +25,7 @@ class ChatFrom extends React.Component {
   render() {
     const user = this.getUser()
     if (!user) {
-      return <Redirect to="/" />
+      return <Redirect to={routePaths.home} />
     }
 
     return <Chat user={user} from={user} />

@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { css } from 'emotion'
 import styled from 'react-emotion'
-import { me, mobileBreakpoint } from '../constants'
+import { me, mobileBreakpoint, getUserChatPath } from '../constants'
 import ControlledInput from '../components/controlledInput'
 
 const Heading = styled('h1')`
@@ -66,7 +66,7 @@ const Home = ({ history }) => (
         showLengthCounter={false}
         valueCleaner={val => val.replace(/\s/g, '_')}
         submitLabel="→"
-        onInput={user => history.push(`/chat/${user}`)}
+        onInput={user => history.push(getUserChatPath(user))}
       />
     </InputWrapper>
   </div>
